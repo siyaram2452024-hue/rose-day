@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Rose Day 🌹</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(180deg, #ff5f8f, #ff9dbb);
+  overflow: hidden;
+  color: white;
+}
+
+/* INTRO */
+#intro {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #ff5f8f, #ff9dbb);
+  z-index: 10;
+  transition: opacity 1.5s ease;
+}
+
+#intro button {
+  background: rgba(255,255,255,0.2);
+  border: 2px solid white;
+  color: white;
+  padding: 18px 30px;
+  font-size: 1.2em;
+  border-radius: 30px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+
+/* MAIN */
+#main {
+  display: none;
+  height: 100vh;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+/* TYPING */
+#typing {
+  font-size: 2em;
+  min-height: 60px;
+  margin-bottom: 15px;
+}
+
+/* MESSAGE */
+#hiddenMessage {
+  margin-top: 20px;
+  font-size: 1.15em;
+  line-height: 1.8;
+}
+
+#hiddenMessage .line {
+  display: block;
+  opacity: 0;
+  margin-top: 8px;
+}
+
+#hiddenMessage .show {
+  animation: fadeIn 2.5s ease forwards, heartbeat 3s ease-in-out infinite;
+}
+
+/* FINAL LOVE */
+#finalLove {
+  margin-top: 35px;
+  font-size: 2em;
+  font-weight: bold;
+  opacity: 0;
+}
+
+#finalLove.show {
+  opacity: 1;
+  animation: softGlow 3s ease-in-out infinite;
+}
+
+/* FLOATING */
+.heart, .rose {
+  position: absolute;
+  bottom: -50px;
+  font-size: 24px;
+  animation: floatUp linear infinite;
+  opacity: 0.8;
+}
+
+/* ANIMATIONS */
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-120vh); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heartbeat {
+  0% { text-shadow: 0 0 6px rgba(255,255,255,0.4); }
+  50% { text-shadow: 0 0 16px rgba(255,255,255,0.9); }
+  100% { text-shadow: 0 0 6px rgba(255,255,255,0.4); }
+}
+
+@keyframes softGlow {
+  0% {
+    text-shadow: 0 0 10px rgba(255,255,255,0.5),
+                 0 0 20px rgba(255,182,193,0.6);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255,255,255,0.9),
+                 0 0 35px rgba(255,105,180,0.9);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(255,255,255,0.5),
+                 0 0 20px rgba(255,182,193,0.6);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+  <button id="startBtn">Tap to Start 💖</button>
+</div>
+
+<div id="main">
+  <div id="typing"></div>
+
+  <div id="hiddenMessage">
+    <span class="line">Sanskrti,</span>
+    <span class="line">babbbyy just let u know ki</span>
+    <span class="line">i really loveeeee uhhhh a lotttttttt 💗🧿</span>
+    <span class="line">nd i will keep loving uhhh bebbuuuuuu forever ♾️🦢</span>
+    <span class="line">i just want uhh to choose meee haar baar 🫶🏻</span>
+    <span class="line">nd i just want that u stay with meeeeee haar timeeee 🥹</span>
+    <span class="line">nd i really lovee uhh babbbyyyy 😭🫠♾️💗🧿🦢</span>
+    <span class="line">iloveyou soooo muchhh babbyyyy 🦢🧿💗♾️🫠🫶🏻</span>
+  </div>
+
+  <div id="finalLove">I love you, Sanskrti ♾️💗</div>
+</div>
+
+<audio id="bgMusic" loop preload="auto">
+  <source src="first-love.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const intro = document.getElementById("intro");
+const btn = document.getElementById("startBtn");
+const main = document.getElementById("main");
+const typing = document.getElementById("typing");
+const music = document.getElementById("bgMusic");
+
+const text = "Happy Rose Day 🌹 My Love";
+let i = 0;
+
+btn.onclick = () => {
+  intro.style.opacity = "0";
+  setTimeout(() => {
+    intro.style.display = "none";
+    main.style.display = "flex";
+  }, 1500);
+
+  music.volume = 0.7;
+  music.play().catch(()=>{});
+
+  if (navigator.vibrate) navigator.vibrate(40);
+
+  typeEffect();
+  startFloating();
+};
+
+function typeEffect() {
+  if (i < text.length) {
+    typing.innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeEffect, 100);
+  } else {
+    setTimeout(revealLines, 1000);
+  }
+}
+
+function revealLines() {
+  const lines = document.querySelectorAll("#hiddenMessage .line");
+  lines.forEach((line, index) => {
+    setTimeout(() => {
+      line.classList.add("show");
+    }, index * 1400);
+  });
+
+  setTimeout(() => {
+    document.getElementById("finalLove").classList.add("show");
+  }, lines.length * 1400 + 1200);
+}
+
+function startFloating() {
+  setInterval(() => createFloat("💖", "heart"), 600);
+  setInterval(() => createFloat("🌹", "rose"), 900);
+}
+
+function createFloat(symbol, cls) {
+  const el = document.createElement("div");
+  el.className = cls;
+  el.innerHTML = symbol;
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.animationDuration = 6 + Math.random() * 4 + "s";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 12000);
+}
+</script>
+
+</body>
+</html>
